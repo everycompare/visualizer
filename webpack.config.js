@@ -23,8 +23,14 @@ const path = require('path');
  */
 
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
+	plugins: [
+		new HtmlWebpackPlugin({
+			template: path.resolve(__dirname, 'src', 'index.pug')
+		})
+	],
 	module: {
 		rules: [
 			{
@@ -65,6 +71,10 @@ module.exports = {
 						}
 					}
 				]
+			},
+			{
+				test: /\.pug$/,
+				use: ['pug-loader']
 			}
 		]
 	},
@@ -90,5 +100,10 @@ module.exports = {
 			minSize: 30000,
 			name: true
 		}
+	},
+
+	devServer: {
+		contentBase: path.resolve(__dirname, 'dist'),
+		compress: true
 	}
 };
